@@ -12,6 +12,21 @@ const std::string& Object::get_class_name() const
 {
   return m_class_name;
 }
+ 
+int Object::get_field_count()
+{
+  return Singleton<ClassFactory>::get_instance()->get_class_field_count(get_class_name());
+}
+
+ClassField* Object::get_field(int index)
+{
+  return Singleton<ClassFactory>::get_instance()->get_class_field(get_class_name(), index);
+}
+
+ClassField* Object::get_field(const std::string& field_name)
+{
+  return Singleton<ClassFactory>::get_instance()->get_class_field(get_class_name(), field_name);
+}
 
        
 void ClassFactory::register_class(const std::string& class_name, create_object func)
@@ -28,4 +43,30 @@ Object* ClassFactory::create_class(const std::string& class_name)
   return it->second();
 }
 
+void ClassFactory::register_class_field(const std::string& class_name, const std::string& field_name, const std::string& field_type, size_t offset)
+{
+  m_class_fields[class_name].push_back(new ClassField(field_name, field_type, offset));
+}
+
+int ClassFactory::get_class_field_count(const std::string& class_name)
+{
+  return (int)m_class_fields[class_name].size();
+}
+
+ClassField* ClassFactory::get_class_field(const std::string& class_name, int index)
+{
+  int size = (int)m_class_fields[class_name].size();
+  if (index < 0 || index >= size)
+    return nullptr;
+  return m_class_fields[class_name][index];
+}
+
+ClassField* ClassFactory::get_class_field(const std::string& class_name, const std::string& field_name)
+{
+  auto fields = m_class_fields[class_name];
+  for (auto it = fields.begin(); it != fields.end(); ++ it)
+    if ((*it)->get_name() == field_name)
+      return *it;
+  return nullptr;
+}
 

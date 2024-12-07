@@ -16,6 +16,10 @@ namespace melon
           Singleton<ClassFactory>::get_instance()->register_class(class_name, func);
         }
 
+        ClassRegister(const std::string& class_name, const std::string& field_name, const std::string& field_type, size_t offset)
+        {
+          Singleton<ClassFactory>::get_instance()->register_class_field(class_name, field_name, field_type, offset);
+        }
     };
 
 #define REGISTER_CLASS(className)                                               \
@@ -26,5 +30,10 @@ namespace melon
       return obj;                                                               \
     }                                                                           \
     ClassRegister ClassRegister##className(#className, createObject##className)
+
+
+#define REGISTER_CLASS_FIELD(className, fieldName, fieldType) \
+    className className##fieldName;                           \
+    ClassRegister ClassRegister##className##fieldName(#className, #fieldName, #fieldType, (size_t)(&(className##fieldName.fieldName)) - (size_t)(&(className##fieldName)))
   }
 }
