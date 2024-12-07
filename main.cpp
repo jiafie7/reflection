@@ -19,5 +19,10 @@ int main()
   a->get_field_value<int>("m_age", age);
   std::cout << "name = " << name << ", age = " << age << '\n';
 
+  a->call("hello");
+  const std::string& Name = "Jenny";
+  int Age = 17;
+  a->call("get_info", Name, Age);
+
   return 0;
 }

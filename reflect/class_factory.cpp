@@ -70,3 +70,30 @@ ClassField* ClassFactory::get_class_field(const std::string& class_name, const s
   return nullptr;
 }
 
+void ClassFactory::register_class_method(const std::string& class_name, const std::string& method_name, uintptr_t method)
+{
+  m_class_methods[class_name].push_back(new ClassMethod(method_name, method)); 
+}
+
+int ClassFactory::get_class_method_count(const std::string& class_name)
+{
+  return (int)m_class_methods[class_name].size();
+}
+
+ClassMethod* ClassFactory::get_class_method(const std::string& class_name, int index)
+{
+  int size = (int)m_class_methods[class_name].size();
+  if (index < 0 || index >= size)
+    return nullptr;
+  return m_class_methods[class_name][index];
+}
+
+ClassMethod* ClassFactory::get_class_method(const std::string& class_name, const std::string& method_name)
+{
+  for (auto it = m_class_methods[class_name].begin(); it != m_class_methods[class_name].end(); ++ it)
+    if ((*it)->get_name() == method_name)
+      return *it;
+  return nullptr;
+}
+
+
