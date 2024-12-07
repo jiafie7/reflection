@@ -18,7 +18,7 @@ namespace melon
         Singleton() = default;
         Singleton(const Singleton<T>&) = delete;
         Singleton<T>& operator=(const Singleton<T>&) = delete;
-        ~Singleton() = default();
+        ~Singleton() = default;
     };
 
 #define SINGLETON(classname)                            \

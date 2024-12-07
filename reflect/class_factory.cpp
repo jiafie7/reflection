@@ -1,5 +1,7 @@
+#include <iostream>
 #include "reflect/class_factory.h"
 
+using namespace melon::reflect;
         
 void Object::set_class_name(const std::string& class_name)
 {
@@ -22,6 +24,7 @@ Object* ClassFactory::create_class(const std::string& class_name)
   auto it = m_class.find(class_name);
   if (it == m_class.end())
     return nullptr;
+  std::cout << class_name << '\n';
   return it->second();
 }
 

@@ -1,5 +1,12 @@
 #pragma once
 
+#include <string>
+#include <map>
+
+#include "utility/singleton.h"
+
+using namespace melon::utility;
+
 namespace melon
 {
   namespace reflect
